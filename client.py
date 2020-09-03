@@ -9,6 +9,11 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # or even remotely network machines
 s.connect((socket.gethostname(), 1234))
 
-# 1024 buffer size
-msg = s.recv(1024)
-print(msg.decode("utf-8"))
+# buffering data
+full_msg = ''
+while True:
+    msg = s.recv(8)
+    if len(msg) <= 0:
+        break
+    full_msg += msg.decode('utf-8')
+print(full_msg)
