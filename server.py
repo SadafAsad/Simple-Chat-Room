@@ -2,6 +2,7 @@
 # the socket its self is not the communication, it's just the end-point that recieves that communication
 # and an end_point sits at and IP and PORT
 import socket
+import time
 
 HEADERSIZE = 10
 
@@ -36,3 +37,9 @@ while True:
     #sending information to client socket object
     clientsocket.send(bytes(msg, "utf-8"))
 
+    # a quick example to see the connection is still open
+    while True:
+        time.sleep(3)
+        msg = f"The time is! {time.time()}"
+        msg = f'{len(msg):<{HEADERSIZE}}' + msg
+        clientsocket.send(bytes(msg, "utf-8"))
