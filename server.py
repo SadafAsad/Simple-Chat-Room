@@ -34,5 +34,5 @@ while True:
 
 
     #sending information to client socket object
-    clientsocket.send(bytes("Welcome to the server!", "utf-8"))
+    clientsocket.send(bytes(msg, "utf-8"))
 

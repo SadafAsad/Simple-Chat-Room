@@ -28,5 +28,6 @@ while True:
             print("full msg recvd")
             print(full_msg [HEADERSIZE:])
             new_msg = True
-            
+            full_msg = ''
+
 print(full_msg)
