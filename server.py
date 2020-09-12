@@ -3,6 +3,8 @@
 # and an end_point sits at and IP and PORT
 import socket
 
+HEADERSIZE = 10
+
 # defining socket object - with socket family type and actual type of socket (a,b) -
 # ^^ if INET corresponds to IPV4 and SOCK_STREAM corresponds to TCP
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    
@@ -24,6 +26,14 @@ while True:
     clientsocket, address = s.accept()
     print(f"Connection from {address} has been established!")
 
+    # how to handle sockets that exceed your buffer while you dont want to close the connection and want to let stream be open ? Header
+    # header is gonna notify your program how long is your message and maybe give some other information
+    # fixed length header
+    msg = "Welcome to the server!"
+    msg = f'{len(msg):<{HEADERSIZE}}' + msg
+
+
     #sending information to client socket object
     clientsocket.send(bytes("Welcome to the server!", "utf-8"))
     clientsocket.close()
+
