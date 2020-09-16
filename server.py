@@ -3,6 +3,9 @@
 # and an end_point sits at and IP and PORT
 import socket
 import time
+# picking in python is serialization(flattening) --> converting it to bytes
+# what can we pickle in python? Objects(pretty much everything)
+import pickle
 
 HEADERSIZE = 10
 
@@ -30,16 +33,23 @@ while True:
     # how to handle sockets that exceed your buffer while you dont want to close the connection and want to let stream be open ? Header
     # header is gonna notify your program how long is your message and maybe give some other information
     # fixed length header
-    msg = "Welcome to the server!"
-    msg = f'{len(msg):<{HEADERSIZE}}' + msg
+    
+    # pickling
+    d = {1: "Hey", 2: "there"}
+    msg = pickle.dumps(d)
+    
+    # using header
+    msg = bytes(f'{len(msg):<{HEADERSIZE}}', "utf-8") + msg
 
 
     #sending information to client socket object
-    clientsocket.send(bytes(msg, "utf-8"))
+    clientsocket.send(msg)
 
+    '''
     # a quick example to see the connection is still open
     while True:
         time.sleep(3)
         msg = f"The time is! {time.time()}"
         msg = f'{len(msg):<{HEADERSIZE}}' + msg
         clientsocket.send(bytes(msg, "utf-8"))
+    '''
