@@ -17,4 +17,4 @@ Install kivy:
 ```
 python -m pip install kivy==
 ```
-and hit ENTER then choose the latest version
+and hit ENTER then choose the latest version.
