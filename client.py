@@ -104,7 +104,7 @@ while True:
     
     # when there are no more messages to be received (this case is fine but if it's not like this ...)
     except IOError as e:
-        if e.errno != errno.EAGAIN or e.errno != errno.EWOULDBLOCK:
+        if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
             print('Reading error', str(e))
             sys.exit()
         continue
