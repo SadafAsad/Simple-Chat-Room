@@ -75,6 +75,7 @@ client_socket.send(usernmae_header + username)
 
 while True:
     message = input(f"{my_username} > ")
+    # message = ""
 
     # if it's not empty
     if message:
