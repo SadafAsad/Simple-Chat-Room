@@ -9,6 +9,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
+from kivy.core.window import Window
 import client
 import os
 import sys
@@ -102,7 +103,24 @@ class ChatPage(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.cols = 1
-        self.add_widget(Label(text="it worked up to this point!!!"))
+        self.rows = 2
+
+        # row n1
+        self.history = Label(height=Window.size[1]*0.9, size_hint_y=None)
+        self.add_widget(self.history)
+
+        # row n2
+        self.new_message = TextInput(width=Window.size[0]*0.8, size_hint_x=None, multiline=False)
+        self.send = Button(text="Send")
+        self.send.bind(on_press=self.send_message)
+
+        bottom_line = GridLayout(cols=2)
+        bottom_line.add_widget(self.new_message)
+        bottom_line.add_widget(self.send)
+        self.add_widget(bottom_line)
+    
+    def send_message(self, _):
+        print("Send a Message!!!")
 
 
 class EpicApp(App):
