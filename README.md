@@ -1,5 +1,13 @@
 # Simple-Chat-Room
 
+
+## Credits goes to
+```
+https://pythonprogramming.net/
+https://www.youtube.com/c/sentdex/about
+```
+
+
 ## Kivy installation
 
 Install the dependencies:
