@@ -8,6 +8,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.clock import Clock
+import client
 import os
 
 class ConnectPage(GridLayout):
@@ -63,6 +65,15 @@ class ConnectPage(GridLayout):
         chat_app.info_page.update_info(info)
         # to change screen
         chat_app.screen_manager.current = "Info"
+
+        Clock.schedule_once(self.connect, 1)
+
+    # _ : the instance and how many seconds has gone by since the schedule (in this case it's always gonna be 1)
+    def connect(self, _):
+        port = int(self.port.text)
+        ip = self.ip.text
+        username = self.username.text
+
 
 
 class InfoPage(GridLayout):
