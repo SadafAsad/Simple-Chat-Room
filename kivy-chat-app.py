@@ -25,7 +25,7 @@ class ScrollableLable(ScrollView):
         self.scroll_to_point = Label()
 
         self.layout.add_widget(self.chat_history)
-        self.layout.add_widget(self.scroll_distance)
+        self.layout.add_widget(self.scroll_to_point)
 
     def update_chat_history(self, message):
         self.chat_history.text += '\n' + message
@@ -129,7 +129,7 @@ class ChatPage(GridLayout):
         self.rows = 2
 
         # row n1
-        self.history = Label(height=Window.size[1]*0.9, size_hint_y=None)
+        self.history = ScrollableLable(height=Window.size[1]*0.9, size_hint_y=None)
         self.add_widget(self.history)
 
         # row n2
@@ -142,8 +142,33 @@ class ChatPage(GridLayout):
         bottom_line.add_widget(self.send)
         self.add_widget(bottom_line)
     
+        # to bind the enter key to send a message
+        Window.bind(on_key_down=self.on_key_down)
+
+        Clock.schedule_once(self.focus_text_input, 1)
+        client.start_listening(self.incoming_message, show_error)
+
+    def on_key_down(self, instance, keyboard, keycode, text, modifiers):
+        # enter key
+        if keycode == 40:
+            self.send_message(None)
+
     def send_message(self, _):
-        print("Send a Message!!!")
+        message = self.new_message.text
+        self.new_message.text = ""
+        if message:
+            # we see our message
+            self.history.update_chat_history(f"[color=dd2020]{chat_app.connect_page.username.text}[/color] > {message}")
+            # send to everyone else
+            client.send(message)
+        
+        Clock.schedule_once(self.focus_text_input, 0.1)
+
+    def focus_text_input(self, _):
+        self.new_message.focus = True
+    
+    def incoming_message(self, username, message):
+        self.history.update_chat_history(f"[color=20dd20]{username}[/color] > {message}")
 
 
 class EpicApp(App):
