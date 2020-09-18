@@ -7,6 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 # text from user
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.uix.screenmanager import ScreenManager, Screen
 import os
 
 class ConnectPage(GridLayout):
@@ -60,11 +61,37 @@ class ConnectPage(GridLayout):
         with open("prev_details.txt", "w") as f:
             f.write(f"{ip},{port},{username}")
 
+
+class InfoPage(GridLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.cols = 1
+        self.message = Label(halign="center", valign="middle", font_size=30)
+        self.message.bind(width=self.update_text_width)
+        self.add_widget(Self.message)
+
+    def update_info(self, message):
+        self.message.text = message
+
+    def update_text_width(self, *_):
+        self.message.text_size(self.message.width*0.9, None)
+
 class EpicApp(App):
     # initiallization method
     def build(self):
-        return ConnectPage()
+        self.screen_manager = ScreenManager()
 
+        self.connect_page = ConnectPage()
+        screen = Screen(name="Connect")
+        screen.add_widget(self.connect_page)
+        self.screen_manager.add_widget(screen)
+
+        self.info_page = InfoPage()
+        screen = Screen(name="Info")
+        screen.add_widget(self.info_page)
+        self.screen_manager.add_widget(screen)
+
+        return self.screen_manager
 
 if __name__ == "__main__":
     EpicApp().run()
