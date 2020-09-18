@@ -56,10 +56,13 @@ class ConnectPage(GridLayout):
         port = self.port.text
         username = self.username.text
 
-        print(f"attempting to join {ip}:{port} as {username}")
-
         with open("prev_details.txt", "w") as f:
             f.write(f"{ip},{port},{username}")
+
+        info = f"attempting to join {ip}:{port} as {username}"
+        chat_app.info_page.update_info(info)
+        # to change screen
+        chat_app.screen_manager.current = "Info"
 
 
 class InfoPage(GridLayout):
@@ -68,13 +71,13 @@ class InfoPage(GridLayout):
         self.cols = 1
         self.message = Label(halign="center", valign="middle", font_size=30)
         self.message.bind(width=self.update_text_width)
-        self.add_widget(Self.message)
+        self.add_widget(self.message)
 
     def update_info(self, message):
         self.message.text = message
 
     def update_text_width(self, *_):
-        self.message.text_size(self.message.width*0.9, None)
+        self.message.text_size = (self.message.width*0.9, None)
 
 class EpicApp(App):
     # initiallization method
@@ -94,4 +97,5 @@ class EpicApp(App):
         return self.screen_manager
 
 if __name__ == "__main__":
-    EpicApp().run()
+    chat_app = EpicApp()
+    chat_app.run()
