@@ -11,6 +11,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 import client
 import os
+import sys
 
 class ConnectPage(GridLayout):
     def __init__(self, **kwargs):
@@ -74,6 +75,12 @@ class ConnectPage(GridLayout):
         ip = self.ip.text
         username = self.username.text
 
+        if not client.connect(ip, port, username, show_error):
+            return
+        
+        # if we are able to connect
+        chat_app.create_chat_page()
+        chat_app.screen_manager.current = "Chat" 
 
 
 class InfoPage(GridLayout):
@@ -89,6 +96,14 @@ class InfoPage(GridLayout):
 
     def update_text_width(self, *_):
         self.message.text_size = (self.message.width*0.9, None)
+
+
+class ChatPage(GridLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.cols = 1
+        self.add_widget(Label(text="it worked up to this point!!!"))
+
 
 class EpicApp(App):
     # initiallization method
@@ -106,6 +121,19 @@ class EpicApp(App):
         self.screen_manager.add_widget(screen)
 
         return self.screen_manager
+    
+    def create_chat_page(self):
+        self.chat_page = ChatPage()
+        screen = Screen(name="Chat")
+        screen.add_widget(self.chat_page)
+        self.screen_manager.add_widget(screen)
+
+
+def show_error(message):
+    chat_app.info_page.update_info(message)
+    chat_app.screen_manager.current = "Info"
+    Clock.schedule_once(sys.exit, 10)
+
 
 if __name__ == "__main__":
     chat_app = EpicApp()
