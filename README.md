@@ -22,5 +22,5 @@ and hit ENTER then choose the latest version.
 ### All the credits goes to
 ```
 https://pythonprogramming.net/
-https://www.youtube.com/c/sentdex/about
+https://www.youtube.com/c/sentdex/featured
 ```
