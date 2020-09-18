@@ -167,7 +167,7 @@ class ChatPage(GridLayout):
             new_width = Window.size[0]*0.8
         self.new_message.width = new_width
 
-        Clock.schedule_once(self.history.update_chat_history_layout, 0.1)
+        Clock.schedule_once(self.history.update_chat_history_layout, 0.01)
 
     def on_key_down(self, instance, keyboard, keycode, text, modifiers):
         # enter key
